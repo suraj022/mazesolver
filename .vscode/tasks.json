@@ -1,0 +1,81 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Compile Arduino Sketch",
+            "type": "shell",
+            "command": "./compiler/arduino-cli.exe",
+            "args": [
+                "compile",
+                "-v",
+                "--output-dir",
+                "./build"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "deploy",
+            "type": "shell",
+            "command": "./compiler/curl.exe",
+            "args": [
+                "--connect-timeout",
+                "2",
+                "-F",
+                "update=@build/${workspaceFolderBasename}.ino.with_bootloader.bin",
+                "192.168.1.19/update"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "build",
+            "dependsOn": [
+                "Compile Arduino Sketch",
+                "deploy"
+            ],
+            "dependsOrder": "sequence",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [
+                "$gcc"
+            ]   
+        },
+        {
+            "label": "run",
+            "type": "shell",
+            "command": "./compiler/curl.exe",
+            "args": [
+                "--connect-timeout",
+                "2",
+                "-s",
+                "192.168.1.19/run"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "stop",
+            "type": "shell",
+            "command": "./compiler/curl.exe",
+            "args": [
+                "--connect-timeout",
+                "2",
+                "-s",
+                "192.168.1.19/stop"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        }
+    ]
+}

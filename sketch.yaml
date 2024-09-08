@@ -1,0 +1,8 @@
+profiles:
+  SAMD:
+    fqbn: arduino:samd:arduino_zero_edbg
+    platforms:
+      - platform: arduino:samd (1.8.14)
+    libraries:
+      - MPU6050_light (1.2.1)
+default_profile: SAMD
